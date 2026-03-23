@@ -2,9 +2,8 @@
 
 An educational quantum computing platform designed for SAP, built with React and integrated with RasQberry. This interactive application teaches quantum computing concepts through hands-on circuit building with real SAP business context.
 
-![SAP Learning Hub](./public/92-925426_sap-learning-hub-logo-hd-png-download.png)
 
-## 🎯 Features
+##  Features
 
 - **Interactive Quantum Circuit Composer** - Drag-and-drop interface for building quantum circuits
 - **Educational Questions** - Progressive learning path from beginner to advanced
@@ -13,7 +12,7 @@ An educational quantum computing platform designed for SAP, built with React and
 - **Progress Tracking** - Monitor your learning journey
 - **Desktop Application** - Native-like experience on RasQberry
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -123,7 +122,7 @@ rasqberry-sap-demo/
 - **@qamposer/react** - Quantum circuit composer
 - **Recharts** - Data visualization
 
-## 🎓 Educational Concepts
+##  Educational Concepts
 
 ### Quantum Gates Covered
 
@@ -144,7 +143,7 @@ rasqberry-sap-demo/
 - Production optimization
 - Secure data transfer
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Port Already in Use
 
@@ -180,11 +179,11 @@ Manually open: http://localhost:3000
 - `SECURITY_NOTES.md` - Security considerations
 - `TESTING_GUIDE.md` - Testing instructions
 
-## 🤝 Contributing
+##  Contributing
 
 This is an educational project for SAP and RasQberry integration. Contributions are welcome!
 
-## 📄 License
+## License
 
 Educational use for SAP and RasQberry demonstrations.
 
@@ -195,7 +194,7 @@ Educational use for SAP and RasQberry demonstrations.
 - [SAP Learning Hub](https://learning.sap.com/)
 - [Qamposer React](https://github.com/QAMP-62/qamposer-react)
 
-## 💡 Support
+##  Support
 
 For issues or questions:
 1. Check the troubleshooting section
@@ -203,5 +202,3 @@ For issues or questions:
 3. Consult RasQberry community resources
 
 ---
-
-**Built with ❤️ for SAP Education | Powered by RasQberry and Qamposer**

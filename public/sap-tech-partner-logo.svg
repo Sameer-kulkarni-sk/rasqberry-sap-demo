@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- TECHNOLOGY text -->
+  <text x="150" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="300" fill="#B3B3B3" text-anchor="middle" letter-spacing="4">
+    TECHNOLOGY
+  </text>
+  
+  <!-- SAP Blue Box -->
+  <rect x="50" y="50" width="200" height="80" fill="#0070F2"/>
+  
+  <!-- SAP Text -->
+  <text x="150" y="115" font-family="Arial, sans-serif" font-size="70" font-weight="bold" fill="white" text-anchor="middle">
+    SAP
+  </text>
+  
+  <!-- TM Symbol -->
+  <text x="260" y="60" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0070F2">
+    TM
+  </text>
+  
+  <!-- GLOBAL PARTNER text -->
+  <text x="150" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="300" fill="#B3B3B3" text-anchor="middle" letter-spacing="3">
+    GLOBAL PARTNER
+  </text>
+  
+  <!-- Underline -->
+  <line x1="50" y="170" x2="250" y="170" stroke="#333333" stroke-width="2"/>
+</svg>

@@ -1,0 +1,923 @@
+/* SAP Professional Theme - RasQberry Demo */
+:root {
+    --sap-blue: #0070f2;
+    --sap-dark-blue: #0054a6;
+    --sap-light-blue: #d1efff;
+    --sap-green: #107e3e;
+    --sap-orange: #e9730c;
+    --sap-red: #bb0000;
+    --sap-gray-1: #f7f7f7;
+    --sap-gray-2: #ededed;
+    --sap-gray-3: #d9d9d9;
+    --sap-gray-4: #6a6d70;
+    --sap-gray-5: #32363a;
+    --text-primary: #32363a;
+    --text-secondary: #6a6d70;
+    --border-color: #d9d9d9;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: '72', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--sap-gray-1);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.app-header {
+    background: linear-gradient(135deg, var(--sap-blue) 0%, var(--sap-dark-blue) 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.sap-partner-logo {
+    background: transparent;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sap-partner-logo svg {
+    display: block;
+    height: 100px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.header-text {
+    flex: 1;
+}
+
+.header-text h1 {
+    margin: 0;
+}
+
+.header-text .subtitle {
+    margin: 0.5rem 0 0 0;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-title h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
+}
+
+.sap-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    background: white;
+    color: var(--sap-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+/* Dashboard Stats */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--sap-blue);
+}
+
+.stat-subtext {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* Question Section */
+.question-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.question-header {
+    border-bottom: 2px solid var(--sap-blue);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.question-title {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.difficulty-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.difficulty-beginner {
+    background-color: var(--sap-green);
+    color: white;
+}
+
+.difficulty-intermediate {
+    background-color: var(--sap-orange);
+    color: white;
+}
+
+.difficulty-advanced {
+    background-color: var(--sap-red);
+    color: white;
+}
+
+.question-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.sap-context {
+    background-color: var(--sap-light-blue);
+    border-left: 4px solid var(--sap-blue);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.sap-context-title {
+    font-weight: 600;
+    color: var(--sap-dark-blue);
+    margin-bottom: 0.5rem;
+}
+
+.sap-context-text {
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Quantum Composer */
+.composer-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.composer-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.circuit-canvas {
+    background-color: var(--sap-gray-1);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    min-height: 300px;
+    margin-bottom: 1.5rem;
+}
+
+.qubit-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.qubit-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    width: 60px;
+    font-size: 1rem;
+}
+
+.qubit-wire {
+    flex: 1;
+    height: 2px;
+    background-color: var(--sap-gray-4);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.gate-slot {
+    width: 60px;
+    height: 60px;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: all 0.2s;
+}
+
+.gate-slot:hover {
+    border-color: var(--sap-blue);
+    background-color: var(--sap-light-blue);
+}
+
+.gate-slot.filled {
+    border-style: solid;
+    border-color: var(--sap-blue);
+    background-color: var(--sap-blue);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Gate Palette */
+.gate-palette {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background-color: var(--sap-gray-2);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.gate-button {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--sap-blue);
+    border-radius: 8px;
+    background-color: white;
+    color: var(--sap-blue);
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.gate-button:hover {
+    background-color: var(--sap-blue);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.gate-button:active {
+    transform: translateY(0);
+}
+
+.gate-name {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* Control Buttons */
+.control-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--sap-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--sap-dark-blue);
+    box-shadow: var(--shadow);
+}
+
+.btn-secondary {
+    background-color: var(--sap-gray-3);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--sap-gray-4);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--sap-green);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #0d6b34;
+}
+
+/* Simulation Results */
+.simulation-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.simulation-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.results-chart {
+    margin-top: 1rem;
+}
+
+.result-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.result-label {
+    width: 80px;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.result-bar-container {
+    flex: 1;
+    height: 30px;
+    background-color: var(--sap-gray-2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.result-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sap-blue), var(--sap-dark-blue));
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Hints Section */
+.hints-section {
+    background-color: var(--sap-gray-1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.hints-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.hint-item {
+    padding: 0.75rem;
+    background-color: white;
+    border-left: 3px solid var(--sap-orange);
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Progress Bar */
+.progress-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: var(--sap-gray-2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sap-green), #0d6b34);
+    transition: width 0.5s ease;
+}
+
+/* Question Navigation */
+.question-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.question-nav-item {
+    min-width: 120px;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.question-nav-item:hover {
+    border-color: var(--sap-blue);
+    background-color: var(--sap-light-blue);
+}
+
+.question-nav-item.active {
+    border-color: var(--sap-blue);
+    background-color: var(--sap-blue);
+    color: white;
+}
+
+.question-nav-item.completed {
+    border-color: var(--sap-green);
+    background-color: var(--sap-green);
+    color: white;
+}
+
+/* Footer */
+.app-footer {
+    background-color: var(--sap-gray-5);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.footer-link:hover {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 0 1rem;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .gate-palette {
+        justify-content: center;
+    }
+
+    .control-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Loading State */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+/* Success Message */
+.success-message {
+    background-color: var(--sap-green);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error Message */
+.error-message {
+    background-color: var(--sap-red);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Question Navigation */
+.question-navigation {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.question-nav-btn {
+    padding: 0.75rem 1.25rem;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.question-nav-btn:hover:not(:disabled) {
+    border-color: var(--sap-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.question-nav-btn.active {
+    background: var(--sap-blue);
+    color: white;
+    border-color: var(--sap-blue);
+}
+
+.question-nav-btn.completed {
+    background: var(--sap-green);
+    color: white;
+    border-color: var(--sap-green);
+}
+
+.question-nav-btn.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--sap-gray-2);
+}
+
+.question-number {
+    font-size: 0.9rem;
+}
+
+.check-mark {
+    font-size: 1.1rem;
+}
+
+.lock-icon {
+    font-size: 1rem;
+}
+
+/* Locked Message */
+.locked-message {
+    background: var(--sap-orange);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 2rem 0;
+    font-weight: 600;
+}
+
+/* Composer Section */
+.composer-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin: 2rem 0;
+}
+
+.composer-section h3 {
+    color: var(--sap-blue);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.composer-instruction {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Validation Section */
+.validation-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin: 2rem 0;
+}
+
+.validation-message {
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid;
+}
+
+.validation-message.success {
+    background: #e8f5e9;
+    border-color: var(--sap-green);
+    color: var(--sap-green);
+}
+
+.validation-message.info {
+    background: var(--sap-light-blue);
+    border-color: var(--sap-blue);
+    color: var(--sap-dark-blue);
+}
+
+.validation-message.error {
+    background: #ffebee;
+    border-color: var(--sap-red);
+    color: var(--sap-red);
+}
+
+.error-list {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+}
+
+.error-list li {
+    margin: 0.5rem 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--sap-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--sap-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-secondary {
+    background: var(--sap-gray-2);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--sap-gray-3);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--sap-green);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #0d6b33;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Attempts Counter */
+.attempts-counter {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* Completion Message */
+.completion-message {
+    background: linear-gradient(135deg, var(--sap-green) 0%, #0d6b33 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+.app-footer {
+    background: var(--sap-gray-5);
+    color: white;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.app-footer a {
+    color: var(--sap-light-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.app-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Subtitle */
+.subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .header-text h1 {
+        font-size: 1.25rem;
+    }
+
+    .sap-partner-logo svg {
+        height: 70px;
+    }
+
+    .main-content {
+        padding: 0 1rem;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .question-navigation {
+        justify-content: center;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

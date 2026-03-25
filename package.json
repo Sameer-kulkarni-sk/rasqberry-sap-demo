@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Educational Quantum Computing Demo for SAP with RasQberry",
     "private": true,
+    "main": "electron-main.js",
     "dependencies": {
         "@qamposer/react": "^0.1.2",
         "@types/react": "^18.2.0",
@@ -17,7 +18,9 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "electron": "electron .",
+        "electron-build": "electron-builder"
     },
     "eslintConfig": {
         "extends": [
@@ -42,15 +45,4 @@
         "electron-builder": "^26.8.1",
         "wait-on": "^9.0.4"
     }
-}
-{
-  "main": "electron-main.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron": "electron .",
-    "electron-build": "electron-builder"
-  }
 }

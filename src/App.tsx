@@ -285,26 +285,7 @@ function App() {
                 </div>
             </div>
 
-            <footer className="app-footer">
-                <p>
-                    Built with ❤️ for SAP Education | Powered by{' '}
-                    <a
-                        href="https://rasqberry.org/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        RasQberry
-                    </a>{' '}
-                    and{' '}
-                    <a
-                        href="https://github.com/QAMP-62/qamposer-react"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Qamposer
-                    </a>
-                </p>
-            </footer>
+
         </div>
     );
 }

@@ -14,65 +14,40 @@ An educational quantum computing platform designed for SAP, built with React and
 
 ## Quick Start
 
-### Prerequisites
+### Super Easy Installation
 
-- RasQberry device (Raspberry Pi with quantum computing setup)
-- Node.js 14+ and npm
-- Basic understanding of quantum computing concepts
+On your RasQberry, run:
 
-### Installation
-
-1. **Clone or transfer the project to RasQberry:**
 ```bash
-cd ~
-# Transfer from your computer or clone from repository
-```
-
-2. **Install dependencies:**
-```bash
+# Clone from GitHub
+git clone https://github.com/Sameer-kulkarni-sk/rasqberry-sap-demo.git
 cd rasqberry-sap-demo
-npm install
+
+# Run one-command installer
+./install-on-rasqberry.sh
 ```
 
-3. **Build the application:**
-```bash
-npm run build
-```
+That's it! The installer does everything automatically.
 
-4. **Install serve (for running the app):**
-```bash
-sudo npm install -g serve
-```
+**Then:** Double-click the desktop icon to launch!
+
+### Detailed Installation
+
+See [INSTALL.md](INSTALL.md) for:
+- Step-by-step manual installation
+- Alternative installation methods
+- Troubleshooting guide
+- System requirements
 
 ### Running the Application
 
-#### Option 1: Desktop Icon (Recommended)
+**Option 1:** Double-click the desktop icon (easiest!)
 
-1. **Setup desktop launcher:**
-```bash
-cd ~/rasqberry-sap-demo
-cp sap-quantum-learning.desktop ~/Desktop/
-chmod +x ~/Desktop/sap-quantum-learning.desktop
-gio set ~/Desktop/sap-quantum-learning.desktop metadata::trusted true
-```
+**Option 2:** Run `./start-app.sh`
 
-2. **Double-click the desktop icon** to launch!
+**Option 3:** Run `serve -s build -l 3000`
 
-#### Option 2: Command Line
-
-```bash
-cd ~/rasqberry-sap-demo
-./start-app.sh
-```
-
-#### Option 3: Manual Start
-
-```bash
-cd ~/rasqberry-sap-demo
-serve -s build -l 3000
-```
-
-Then open browser to: http://localhost:3000
+Access at: http://localhost:3000
 
 ## 📚 Learning Path
 

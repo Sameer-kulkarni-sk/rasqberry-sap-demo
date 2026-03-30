@@ -6,7 +6,7 @@
 
 An interactive quantum computing learning application designed for RasQberry (Raspberry Pi + Qiskit), featuring SAP branding and educational quantum circuit exercises.
 
-## 🚀 One-Line Deployment
+## Quick Deployment
 
 Deploy to your RasQberry device with a single command:
 
@@ -19,14 +19,14 @@ Deploy to your RasQberry device with a single command:
 ./scripts/deploy_to_rasqberry.sh 100.67.33.252
 ```
 
-That's it! The script will:
-- ✅ Transfer all files to RasQberry
-- ✅ Install dependencies
-- ✅ Build the application
-- ✅ Start the server on port 3000
-- ✅ Launch browser in kiosk mode
+The deployment script will automatically:
+- Transfer all files to RasQberry
+- Install dependencies
+- Build the application
+- Start the server on port 3000
+- Launch browser in kiosk mode
 
-## 📋 Prerequisites
+## Prerequisites
 
 ### On Your Computer:
 - SSH access to RasQberry
@@ -38,7 +38,7 @@ That's it! The script will:
 - SSH enabled
 - Network connectivity
 
-## 🎯 Features
+## Features
 
 - **Interactive Quantum Circuits**: Learn quantum computing through hands-on exercises
 - **Educational Content**: Step-by-step quantum gate tutorials
@@ -47,7 +47,7 @@ That's it! The script will:
 - **Responsive Design**: Optimized for various screen sizes
 - **Kiosk Mode**: Full-screen display for dedicated devices
 
-## 🛠️ Manual Installation
+## Manual Installation
 
 If you prefer manual setup:
 
@@ -76,7 +76,7 @@ serve -s build -l 3000
 ### 5. Access the App
 Open your browser to: `http://localhost:3000`
 
-## 📱 Access Methods
+## Access Methods
 
 After deployment, access the app via:
 
@@ -84,18 +84,18 @@ After deployment, access the app via:
 - **VNC Viewer**: `YOUR_RASQBERRY_IP:5900`
 - **On RasQberry**: Browser opens automatically in kiosk mode
 
-## 🎨 Customization
+## Customization
 
 ### Change SAP Logo
 Replace `public/sap-logo-new.png` with your logo
 
 ### Modify Quantum Exercises
-Edit `src/utils/questions.ts` to add/modify quantum circuit challenges
+Edit `src/utils/questions.ts` to add or modify quantum circuit challenges
 
 ### Adjust Styling
 Customize colors and layout in `src/styles/App.css`
 
-## 🧪 Development
+## Development
 
 ### Start Development Server
 ```bash
@@ -112,7 +112,7 @@ npm test
 npm run build
 ```
 
-## 📚 Project Structure
+## Project Structure
 
 ```
 rasqberry-sap-demo/
@@ -128,34 +128,28 @@ rasqberry-sap-demo/
 └── README.md                      # This file
 ```
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built for [RasQberry](https://github.com/JanLahmann/RasQberry) platform
 - Quantum computing education powered by Qiskit concepts
 - SAP branding and design guidelines
 
-## 📞 Support
+## Support
 
 For issues, questions, or contributions:
 - Open an issue on GitHub
 - Check existing documentation
 - Review quantum computing resources
 
-## 🔗 Links
+## Links
 
 - [RasQberry Project](https://github.com/JanLahmann/RasQberry)
 - [Qiskit Documentation](https://qiskit.org/documentation/)
@@ -163,4 +157,4 @@ For issues, questions, or contributions:
 
 ---
 
-Made with ❤️ for quantum computing education
+Made for quantum computing education

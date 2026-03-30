@@ -1,6 +1,6 @@
 # Contributing to RasQberry SAP Quantum Learning App
 
-Thank you for your interest in contributing! 🎉
+Thank you for your interest in contributing to this project.
 
 ## How to Contribute
 
@@ -22,7 +22,7 @@ git checkout -b feature/your-feature-name
 - Write clean, readable code
 - Follow existing code style
 - Add comments where necessary
-- Test your changes
+- Test your changes thoroughly
 
 ### 5. Commit Your Changes
 ```bash
@@ -45,32 +45,53 @@ npm install
 npm start
 ```
 
-## Code Style
+## Code Style Guidelines
 
 - Use TypeScript for type safety
 - Follow React best practices
 - Use functional components with hooks
 - Keep components small and focused
+- Write descriptive variable and function names
+- Add JSDoc comments for complex functions
 
-## Testing
+## Testing Checklist
 
-Before submitting, ensure:
+Before submitting your pull request, ensure:
 - [ ] Code builds without errors: `npm run build`
 - [ ] App runs correctly: `npm start`
-- [ ] No console errors
-- [ ] Responsive design works
+- [ ] No console errors or warnings
+- [ ] Responsive design works on different screen sizes
+- [ ] Changes are documented in commit messages
 
 ## Areas for Contribution
 
-- 🎓 New quantum circuit exercises
-- 🎨 UI/UX improvements
-- 📚 Documentation enhancements
-- 🐛 Bug fixes
-- ⚡ Performance optimizations
-- 🌐 Internationalization
+- **Quantum Exercises**: New quantum circuit challenges and tutorials
+- **UI/UX**: Interface improvements and user experience enhancements
+- **Documentation**: README updates, code comments, and guides
+- **Bug Fixes**: Identify and fix issues
+- **Performance**: Optimization and efficiency improvements
+- **Internationalization**: Multi-language support
 
-## Questions?
+## Pull Request Process
 
-Open an issue for discussion before starting major changes.
+1. Update the README.md with details of changes if applicable
+2. Ensure all tests pass and code builds successfully
+3. Update documentation to reflect any changes
+4. The PR will be merged once reviewed and approved
 
-Thank you for contributing! 🙏
+## Code of Conduct
+
+- Be respectful and constructive in discussions
+- Focus on the code, not the person
+- Accept constructive criticism gracefully
+- Help others learn and grow
+
+## Questions or Suggestions
+
+Open an issue for discussion before starting major changes. This helps ensure your contribution aligns with the project goals.
+
+## License
+
+By contributing, you agree that your contributions will be licensed under the MIT License.
+
+Thank you for contributing to quantum computing education.

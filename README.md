@@ -136,11 +136,7 @@ Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
 
-- Built for [RasQberry](https://github.com/JanLahmann/RasQberry) platform
-- Quantum computing education powered by Qiskit concepts
-- SAP branding and design guidelines
 
 ## Support
 
@@ -149,12 +145,4 @@ For issues, questions, or contributions:
 - Check existing documentation
 - Review quantum computing resources
 
-## Links
 
-- [RasQberry Project](https://github.com/JanLahmann/RasQberry)
-- [Qiskit Documentation](https://qiskit.org/documentation/)
-- [React Documentation](https://reactjs.org/)
-
----
-
-Made for quantum computing education

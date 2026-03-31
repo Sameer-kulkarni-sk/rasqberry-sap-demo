@@ -29,9 +29,6 @@ Deploy to your RasQberry device with a single command:
 - **Kiosk Mode**: Full-screen display for dedicated devices
 
 
-## Contributing
-
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 

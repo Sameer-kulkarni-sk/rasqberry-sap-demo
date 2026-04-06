@@ -8,7 +8,24 @@ An interactive quantum computing learning application designed for RasQberry (Ra
 
 ## Quick Deployment
 
-Deploy to your RasQberry device with a single command:
+### Step 1: Install Node.js on RasQberry (First Time Only)
+
+If Node.js is not installed on your RasQberry, run this first:
+
+```bash
+./scripts/install_nodejs_rasqberry.sh YOUR_RASQBERRY_IP
+```
+
+This will install Node.js and npm on your RasQberry device.
+
+**Example:**
+```bash
+./scripts/install_nodejs_rasqberry.sh 100.67.33.242
+```
+
+### Step 2: Deploy Application
+
+Deploy with a single command:
 
 ```bash
 ./scripts/deploy_to_rasqberry.sh YOUR_RASQBERRY_IP
@@ -16,8 +33,9 @@ Deploy to your RasQberry device with a single command:
 
 **Example:**
 ```bash
-./scripts/deploy_to_rasqberry.sh 100.67.33.252
+./scripts/deploy_to_rasqberry.sh 100.67.33.242
 ```
+
 
 ## Features
 

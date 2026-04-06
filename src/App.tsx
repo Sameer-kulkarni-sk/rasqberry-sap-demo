@@ -134,22 +134,13 @@ function App() {
                 <div className="header-content">
                     <div className="header-logo">
                         <div className="sap-partner-logo">
-                            <svg width="180" height="120" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
-                                <text x="90" y="20" fontFamily="Arial, sans-serif" fontSize="12" fontWeight="300" fill="#999" textAnchor="middle" letterSpacing="2">
-                                    TECHNOLOGY
-                                </text>
-                                <rect x="30" y="30" width="120" height="48" fill="#0070F2" />
-                                <text x="90" y="68" fontFamily="Arial, sans-serif" fontSize="42" fontWeight="bold" fill="white" textAnchor="middle">
-                                    SAP
-                                </text>
-                                <text x="156" y="36" fontFamily="Arial, sans-serif" fontSize="8" fontWeight="bold" fill="#0070F2">
-                                    TM
-                                </text>
-                                <text x="90" y="96" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="300" fill="#999" textAnchor="middle" letterSpacing="2">
-                                    GLOBAL PARTNER
-                                </text>
-                                <line x1="30" y1="102" x2="150" y2="102" stroke="#666" strokeWidth="1.5" />
-                            </svg>
+                            <img
+                                src="/sap-logo1.png"
+                                alt="SAP Logo"
+                                width="180"
+                                height="120"
+                                style={{ objectFit: 'contain' }}
+                            />
                         </div>
                     </div>
                     <div className="header-text">

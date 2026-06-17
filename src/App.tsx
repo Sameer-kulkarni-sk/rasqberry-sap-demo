@@ -122,6 +122,12 @@ function App() {
     const completionPercentage = Math.round((completedCount / totalQuestions) * 100);
     const totalAttempts = progress.reduce((sum, p) => sum + p.attempts, 0);
 
+    // Consecutive streak from Q1 — stops at the first incomplete question
+    const currentStreak = educationalQuestions.reduce((streak, q, i) => {
+        if (streak !== i) return streak; // gap already found
+        return progress.find((p) => p.questionId === q.id)?.completed ? i + 1 : streak;
+    }, 0);
+
     // Check if current question is unlocked
     const isCurrentQuestionUnlocked =
         currentQuestionIndex === 0 ||
@@ -137,14 +143,12 @@ function App() {
                             <img
                                 src="/sap-logo1.png"
                                 alt="SAP Logo"
-                                width="180"
-                                height="120"
                                 style={{ objectFit: 'contain' }}
                             />
                         </div>
                     </div>
                     <div className="header-text">
-                        <h1>RasQberry SAP Quantum Learning Platform</h1>
+                        <h1>RasQberry · SAP Quantum Learning Platform</h1>
                         <p className="subtitle">
                             Explore Quantum Computing Concepts with SAP Business Applications
                         </p>
@@ -157,7 +161,7 @@ function App() {
                     completedQuestions={completedCount}
                     totalQuestions={totalQuestions}
                     completionPercentage={completionPercentage}
-                    currentStreak={completedCount}
+                    currentStreak={currentStreak}
                     totalAttempts={totalAttempts}
                 />
 
@@ -187,8 +191,7 @@ function App() {
                                     }
                                 >
                                     <span className="question-number">Q{index + 1}</span>
-                                    {isCompleted && <span className="check-mark">✓</span>}
-                                    {!isUnlocked && <span className="lock-icon">🔒</span>}
+                                    {isCompleted && <span className="check-mark">&#10003;</span>}
                                 </button>
                             );
                         })}
@@ -202,7 +205,7 @@ function App() {
 
                     {!isCurrentQuestionUnlocked && (
                         <div className="locked-message">
-                            <p>🔒 Complete the previous question to unlock this one!</p>
+                            <p>Complete the previous question to unlock this one.</p>
                         </div>
                     )}
 
@@ -211,20 +214,23 @@ function App() {
                             <div className="composer-section">
                                 <h3>Quantum Circuit Composer</h3>
                                 <p className="composer-instruction">
-                                    Drag gates from the palette and drop them on the circuit to build your
+                                    Drag gates from the palette and drop them onto the circuit to build your
                                     solution. The circuit must match the expected configuration exactly.
                                 </p>
-                                <QamposerMicro
-                                    circuit={circuit}
-                                    onCircuitChange={handleCircuitChange}
-                                    showHeader={false}
-                                    defaultTheme="dark"
-                                    showThemeToggle={false}
-                                    config={{
-                                        maxQubits: 5,
-                                        maxGates: 20,
-                                    }}
-                                />
+                                <div className="composer-wrapper">
+                                    <QamposerMicro
+                                        circuit={circuit}
+                                        onCircuitChange={handleCircuitChange}
+                                        showHeader={false}
+                                        defaultTheme="dark"
+                                        showThemeToggle={false}
+                                        gridTemplate="180px 1fr"
+                                        config={{
+                                            maxQubits: 5,
+                                            maxGates: 20,
+                                        }}
+                                    />
+                                </div>
                             </div>
 
                             <div className="validation-section">
@@ -255,17 +261,18 @@ function App() {
                                     </button>
                                     {currentQuestionIndex < educationalQuestions.length - 1 && (
                                         <button onClick={handleNextQuestion} className="btn btn-success">
-                                            Next Question →
+                                            Next Question
                                         </button>
                                     )}
-                                    {currentQuestionIndex === educationalQuestions.length - 1 &&
-                                        progress.find((p) => p.questionId === currentQuestion.id)
-                                            ?.completed && (
-                                            <div className="completion-message">
-                                                <p>🎉 Congratulations! You've completed all questions!</p>
-                                            </div>
-                                        )}
                                 </div>
+
+                                {currentQuestionIndex === educationalQuestions.length - 1 &&
+                                    progress.find((p) => p.questionId === currentQuestion.id)
+                                        ?.completed && (
+                                        <div className="completion-message">
+                                            <p>Congratulations! You have completed all questions.</p>
+                                        </div>
+                                    )}
 
                                 {attempts > 0 && (
                                     <p className="attempts-counter">Attempts: {attempts}</p>
@@ -276,7 +283,11 @@ function App() {
                 </div>
             </div>
 
-
+            <footer className="app-footer">
+                RasQberry SAP Quantum Learning Platform &nbsp;·&nbsp; Powered by{' '}
+                <a href="https://qamposer.com" target="_blank" rel="noopener noreferrer">Qamposer</a>
+                &nbsp;·&nbsp; © {new Date().getFullYear()} SAP SE
+            </footer>
         </div>
     );
 }

@@ -15,41 +15,42 @@ export const Dashboard: React.FC<DashboardProps> = ({
     currentStreak,
     totalAttempts
 }) => {
+    const successRate = totalAttempts > 0
+        ? Math.round((completedQuestions / totalAttempts) * 100)
+        : 0;
+
+    const tiles = [
+        {
+            label: 'Overall Progress',
+            value: `${completionPercentage}%`,
+            sub: `${completedQuestions} of ${totalQuestions} completed`,
+        },
+        {
+            label: 'Current Streak',
+            value: currentStreak,
+            sub: 'Consecutive solved',
+        },
+        {
+            label: 'Total Attempts',
+            value: totalAttempts,
+            sub: 'Across all questions',
+        },
+        {
+            label: 'Success Rate',
+            value: `${successRate}%`,
+            sub: 'Questions per attempt',
+        },
+    ];
+
     return (
         <div className="dashboard-stats">
-            <div className="stat-card">
-                <div className="stat-label">Progress</div>
-                <div className="stat-value">{completionPercentage}%</div>
-                <div className="stat-subtext">
-                    {completedQuestions} of {totalQuestions} completed
+            {tiles.map((tile, i) => (
+                <div key={i} className="stat-card">
+                    <div className="stat-label">{tile.label}</div>
+                    <div className="stat-value">{tile.value}</div>
+                    <div className="stat-subtext">{tile.sub}</div>
                 </div>
-            </div>
-
-            <div className="stat-card">
-                <div className="stat-label">Current Streak</div>
-                <div className="stat-value">{currentStreak}</div>
-                <div className="stat-subtext">
-                    Consecutive questions solved
-                </div>
-            </div>
-
-            <div className="stat-card">
-                <div className="stat-label">Total Attempts</div>
-                <div className="stat-value">{totalAttempts}</div>
-                <div className="stat-subtext">
-                    Across all questions
-                </div>
-            </div>
-
-            <div className="stat-card">
-                <div className="stat-label">Success Rate</div>
-                <div className="stat-value">
-                    {totalAttempts > 0 ? Math.round((completedQuestions / totalAttempts) * 100) : 0}%
-                </div>
-                <div className="stat-subtext">
-                    Questions solved per attempt
-                </div>
-            </div>
+            ))}
         </div>
     );
 };

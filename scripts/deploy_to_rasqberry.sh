@@ -192,72 +192,105 @@ then
 fi
 echo -e "${GREEN}✓ Server ready${NC}"
 
-# Start application server (but don't launch browser)
-echo -e "${YELLOW}[6/7]${NC} Starting application server..."
+# Install and enable systemd service so server survives reboots and auto-restarts
+echo -e "${YELLOW}[6/7]${NC} Installing systemd service..."
 if ! ssh $SSH_OPTS "${RASQBERRY_USER}@${RASQBERRY_IP}" bash << 'ENDSSH'
 set -e
 source ~/.bashrc 2>/dev/null || true
-cd ~/rasqberry-sap-demo
 
-# Stop any existing instance
-echo "Stopping any existing instances..."
-fuser -k 3000/tcp 2>/dev/null || true
-pkill -f chromium 2>/dev/null || true
-
-# Start app in background - try global serve first, then local
-echo "Starting application server..."
-if command -v serve &> /dev/null; then
-    # Use global serve
-    nohup serve -s build -l 3000 > /tmp/sap-quantum-app.log 2>&1 &
+# Resolve the serve binary path
+SERVE_BIN=$(command -v serve 2>/dev/null || echo "")
+if [ -z "$SERVE_BIN" ]; then
+    SERVE_BIN=$(command -v npx 2>/dev/null || echo "")
+    SERVE_ARGS="serve -s /home/rasqberry/rasqberry-sap-demo/build -l 3000"
 else
-    # Use local serve via npx
-    nohup npx serve -s build -l 3000 > /tmp/sap-quantum-app.log 2>&1 &
+    SERVE_ARGS="-s /home/rasqberry/rasqberry-sap-demo/build -l 3000"
 fi
 
-sleep 2
+NODE_BIN=$(command -v node)
+NODE_DIR=$(dirname "$NODE_BIN")
 
-# Verify server is running
-if curl -s http://localhost:3000 > /dev/null; then
-    echo "Server is running on port 3000"
-else
-    echo "Warning: Server may not have started properly"
+# Write the systemd unit file
+sudo tee /etc/systemd/system/sap-quantum-app.service > /dev/null << EOF
+[Unit]
+Description=SAP Quantum Learning App
+After=network.target
+
+[Service]
+Type=simple
+User=rasqberry
+WorkingDirectory=/home/rasqberry/rasqberry-sap-demo
+Environment=PATH=${NODE_DIR}:/usr/local/bin:/usr/bin:/bin
+ExecStart=${SERVE_BIN} ${SERVE_ARGS}
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd, enable on boot, (re)start now
+sudo systemctl daemon-reload
+sudo systemctl enable sap-quantum-app.service
+sudo systemctl restart sap-quantum-app.service
+
+# Wait up to 10 seconds for it to come up
+for i in $(seq 1 10); do
+    if curl -s http://localhost:3000 > /dev/null; then
+        echo "Server is running on port 3000"
+        break
+    fi
+    sleep 1
+done
+
+if ! curl -s http://localhost:3000 > /dev/null; then
+    echo "Warning: Server may not have started — check: sudo journalctl -u sap-quantum-app"
 fi
-
-echo "Server started. Use desktop icon to launch the app."
 ENDSSH
 then
-    echo -e "${RED}✗ Application server start failed${NC}"
+    echo -e "${RED}✗ Systemd service setup failed${NC}"
     exit 1
 fi
-echo -e "${GREEN}✓ Application server started${NC}"
+echo -e "${GREEN}✓ Systemd service installed and started (auto-starts on reboot)${NC}"
 
 # Create desktop shortcut
 echo -e "${YELLOW}[7/7]${NC} Creating desktop shortcut..."
 if ! ssh $SSH_OPTS "${RASQBERRY_USER}@${RASQBERRY_IP}" bash << 'ENDSSH'
 set -e
-# Create desktop directory if it doesn't exist
 mkdir -p ~/Desktop
 
-# Create desktop entry
-cat > ~/Desktop/"Sap Quantum Learning.desktop" << 'EOF'
+# Launcher script: waits for the server to respond before opening Chromium
+cat > /home/rasqberry/rasqberry-sap-demo/launch.sh << 'EOF'
+#!/bin/bash
+# Wait up to 30 s for the server to respond before launching Chromium
+for i in $(seq 1 30); do
+    if curl -s http://localhost:3000 > /dev/null 2>&1; then
+        break
+    fi
+    sleep 1
+done
+exec chromium-browser --app=http://localhost:3000
+EOF
+chmod +x /home/rasqberry/rasqberry-sap-demo/launch.sh
+
+cat > ~/Desktop/"SAP Quantum Learning.desktop" << 'EOF'
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Sap Quantum Learning
+Name=SAP Quantum Learning
 Comment=Interactive Quantum Computing Learning Application
-Exec=chromium-browser --app=http://localhost:3000
+Exec=/home/rasqberry/rasqberry-sap-demo/launch.sh
 Icon=/home/rasqberry/rasqberry-sap-demo/app-icon.png
 Terminal=false
 Categories=Education;Science;
 StartupNotify=true
 EOF
+chmod +x ~/Desktop/"SAP Quantum Learning.desktop"
 
-# Make it executable
-chmod +x ~/Desktop/"Sap Quantum Learning.desktop"
-
-# Also create in applications menu
 mkdir -p ~/.local/share/applications
-cp ~/Desktop/"Sap Quantum Learning.desktop" ~/.local/share/applications/
+cp ~/Desktop/"SAP Quantum Learning.desktop" ~/.local/share/applications/
 
 echo "Desktop shortcut created"
 ENDSSH
@@ -272,7 +305,7 @@ echo -e "${BLUE}╔════════════════════�
 echo -e "${BLUE}║  Deployment Complete!                                      ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
 echo ""
-echo -e "${GREEN}✓ Server running at: http://${RASQBERRY_IP}:3000${NC}"
+echo -e "${GREEN}✓ Server running at: http://${RASQBERRY_IP}:3000 (auto-starts on reboot)${NC}"
 echo -e "${GREEN}✓ Desktop shortcut created: 'SAP Quantum Learning'${NC}"
 echo ""
 echo "To launch the app:"
@@ -282,11 +315,8 @@ echo "Alternative access methods:"
 echo "  • Web Browser: http://${RASQBERRY_IP}:3000"
 echo "  • VNC Viewer: ${RASQBERRY_IP}:5900"
 echo ""
-echo "The server is running in the background and will start automatically on reboot."
+echo "To check server status: ssh rasqberry@${RASQBERRY_IP} sudo systemctl status sap-quantum-app"
 echo ""
-
-# Clean up SSH control master
-ssh -O exit $SSH_OPTS "${RASQBERRY_USER}@${RASQBERRY_IP}" 2>/dev/null || true
 
 # Clean up SSH control master
 ssh -O exit $SSH_OPTS "${RASQBERRY_USER}@${RASQBERRY_IP}" 2>/dev/null || true

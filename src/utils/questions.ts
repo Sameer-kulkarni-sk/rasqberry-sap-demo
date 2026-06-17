@@ -79,7 +79,7 @@ export const educationalQuestions: Question[] = [
             'Start with Hadamard to create superposition',
             'Apply Z gate to flip the phase',
             'End with another Hadamard to see the effect',
-            'This sequence demonstrates phase kickback in quantum algorithms'
+            'This sequence demonstrates the conjugation identity H·Z·H = X, flipping |0⟩ to |1⟩'
         ],
         learningObjectives: [
             'Understand quantum phase and its manipulation',

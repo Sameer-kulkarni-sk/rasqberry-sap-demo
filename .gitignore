@@ -6,6 +6,10 @@ package-lock.json
 build/
 dist/
 
+# Allow the pre-built app inside the pi-gen stage to be committed
+!stage-sap-demo/00-install-app/files/build
+!stage-sap-demo/00-install-app/files/build/**
+
 # IDE
 .vscode/
 .idea/

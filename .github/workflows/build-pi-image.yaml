@@ -1,0 +1,217 @@
+name: Build Raspberry Pi Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g. 1.0.0) — required for main branch only'
+        required: false
+        default: ''
+      build_scope:
+        description: 'Build scope'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - no-release
+  push:
+    branches:
+      - 'dev*'
+
+env:
+  CACHE_VERSION: v1
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+
+  # ── Job 1: Version management ──────────────────────────────────────────────
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+      img_filename: ${{ steps.set-version.outputs.img_filename }}
+      build_scope: ${{ steps.set-version.outputs.build_scope }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine version and filename
+        id: set-version
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          DATE=$(date -u +%Y-%m-%d)
+          TIME=$(date -u +%H%M%S)
+          BUILD_SCOPE="${{ github.event.inputs.build_scope || 'full' }}"
+
+          if [ "$BRANCH" = "main" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+            if [ -z "$VERSION" ]; then
+              VERSION=$(cat VERSION | tr -d '[:space:]')
+            fi
+            # Validate semantic version
+            if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+              echo "ERROR: main branch requires a valid semantic version (x.y.z), got: $VERSION"
+              exit 1
+            fi
+            IMG_FILENAME="rasqberry-sap-demo-v${VERSION}"
+          else
+            VERSION="${BRANCH}-${DATE}-${TIME}"
+            IMG_FILENAME="rasqberry-sap-demo-${VERSION}"
+          fi
+
+          echo "version=$VERSION"         >> $GITHUB_OUTPUT
+          echo "img_filename=$IMG_FILENAME" >> $GITHUB_OUTPUT
+          echo "build_scope=$BUILD_SCOPE"  >> $GITHUB_OUTPUT
+          echo "Branch: $BRANCH | Version: $VERSION | File: $IMG_FILENAME"
+
+  # ── Job 2: Build Pi image ──────────────────────────────────────────────────
+  build:
+    runs-on: ubuntu-latest
+    needs: version
+    if: needs.version.outputs.build_scope != 'no-release'
+    steps:
+      - uses: actions/checkout@v4
+
+      # Free up disk space on the GitHub runner
+      - name: Free disk space
+        run: |
+          sudo docker rmi $(docker image ls -aq) 2>/dev/null || true
+          sudo rm -rf /usr/local/lib/android /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          sudo apt-get clean
+          df -h
+
+      # Add swap for memory-hungry npm/Node installs inside chroot
+      - name: Add swap
+        run: |
+          sudo fallocate -l 4G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
+
+      # Install pi-gen dependencies
+      - name: Install pi-gen dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            coreutils quilt parted qemu-user-static debootstrap zerofree zip \
+            dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file \
+            git curl bc gpg pigz xxd arch-test bmap-tools
+
+      # Clone official pi-gen (ARM64 / bookworm branch)
+      - name: Clone pi-gen
+        run: |
+          git clone --depth 1 --branch arm64 \
+            https://github.com/RPi-Distro/pi-gen.git pi-gen
+
+      # Restore cached base stages (0-2) to avoid rebuilding from scratch every time
+      - name: Restore base stage cache
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: pi-gen/work
+          key: base-stages-${{ env.CACHE_VERSION }}-${{ runner.os }}
+          restore-keys: |
+            base-stages-${{ env.CACHE_VERSION }}-
+
+      # Copy our pi-gen config and custom stage
+      - name: Configure pi-gen
+        run: |
+          # Copy our config, set dynamic values
+          cp pi-gen-config pi-gen/config
+          IMG_FILENAME="${{ needs.version.outputs.img_filename }}"
+          echo "IMG_FILENAME=${IMG_FILENAME}" >> pi-gen/config
+          echo "DEPLOY_COMPRESSION=xz"       >> pi-gen/config
+
+          # Set compression level: light for dev, heavy for main/beta
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "beta" ]; then
+            echo "COMPRESSION_LEVEL=9" >> pi-gen/config
+          else
+            echo "COMPRESSION_LEVEL=3" >> pi-gen/config
+          fi
+
+          cat pi-gen/config
+
+      # Rebuild the app and copy into stage files (ensures latest code is in image)
+      - name: Build React app & update stage files
+        run: |
+          npm ci
+          npm run build
+          # Overwrite stage files with fresh build
+          rm -rf stage-sap-demo/00-install-app/files/build
+          cp -r build stage-sap-demo/00-install-app/files/build
+
+      # Copy our custom stage into pi-gen
+      - name: Copy custom stage into pi-gen
+        run: |
+          cp -r stage-sap-demo pi-gen/stage-sap-demo
+
+      # Skip stages 3-5 (desktop heavy extras we don't need)
+      # We use stage0 + stage1 + stage2 (minimal desktop) + our custom stage
+      - name: Configure stage skip files
+        run: |
+          # Keep stage0, stage1, stage2 — skip the rest of the stock stages
+          touch pi-gen/stage3/SKIP
+          touch pi-gen/stage4/SKIP
+          touch pi-gen/stage5/SKIP
+          # Don't produce intermediate images from stages 0-2
+          touch pi-gen/stage0/SKIP_IMAGES
+          touch pi-gen/stage1/SKIP_IMAGES
+          touch pi-gen/stage2/SKIP_IMAGES
+
+      # If we have a cache hit, skip rebuilding base stages
+      - name: Set CONTINUE flag if cache hit
+        if: steps.cache-restore.outputs.cache-hit == 'true'
+        run: |
+          echo "CONTINUE=1" >> pi-gen/config
+          echo "STAGE_LIST=./stage-sap-demo" >> pi-gen/config
+          echo "Using cached base stages — building only stage-sap-demo"
+
+      - name: Build image
+        run: |
+          cd pi-gen
+          sudo bash build.sh 2>&1 | tee /tmp/build.log
+        timeout-minutes: 120
+
+      # Save base stages to cache (only on cache miss, only for non-main branches)
+      - name: Save base stage cache
+        if: steps.cache-restore.outputs.cache-hit != 'true' && github.ref_name != 'main'
+        uses: actions/cache/save@v4
+        with:
+          path: pi-gen/work
+          key: base-stages-${{ env.CACHE_VERSION }}-${{ runner.os }}
+
+      - name: List deploy directory
+        run: ls -lh pi-gen/deploy/
+
+      # Create GitHub Release and upload the image
+      - name: Create release and upload image
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.version.outputs.version }}
+          name: "SAP Quantum Learning ${{ needs.version.outputs.version }}"
+          prerelease: ${{ github.ref_name != 'main' }}
+          body: |
+            ## RasQberry SAP Quantum Learning Platform
+
+            Raspberry Pi OS image with the SAP Quantum Learning app pre-installed.
+
+            ### Flash instructions
+            1. Download the `.img.xz` file below
+            2. Open **Raspberry Pi Imager**
+            3. Choose **Use custom image** and select the downloaded file
+            4. Flash to your SD card
+            5. Boot the Pi — the app starts automatically at `http://rasqberry.local:3000`
+            6. Double-click **SAP Quantum Learning** on the desktop
+
+            ### Default credentials
+            - Username: `rasqberry`
+            - Password: `Qiskit1!`
+            - SSH: enabled
+          files: |
+            pi-gen/deploy/*.img.xz
+            pi-gen/deploy/*.info
